@@ -119,4 +119,31 @@ public class PixelArray {
         }
     }
 
+
+    public void drawRect(int x, int y, int w, int h, int color) {
+        int i;
+        for (i = x; i < x + w; i++) {
+            setPixel(i, y, color);
+            setPixel(i, y + h, color);
+        }
+        for (i = y; i < y + h; i++) {
+            setPixel(x, i, color);
+            setPixel(x + w, i, color);
+        }
+    }
+
+    public void drawRectFill(int x, int y, int w, int h, int color) {
+        int i;
+        for (i = x; i < x + w; i++) {
+            setPixel(i, y, color);
+            setPixel(i, y + h, color);
+        }
+        for (i = y; i < y + h; i++) {
+            setPixel(x, i, color);
+            setPixel(x + w, i, color);
+        }
+    }
+
+
+
 }

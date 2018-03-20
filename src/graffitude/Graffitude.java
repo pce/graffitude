@@ -28,6 +28,7 @@ public class Graffitude {
 
         // what about filter specific options and for each usage ...
         // --filter "scale" 123 "pointed"
+        int argNext;
         for (int arg = 0; arg < args.length; arg++) {
 
             System.out.println(arg + ": " + args[arg]);
@@ -36,7 +37,7 @@ public class Graffitude {
                 System.out.println("option stripe");
                 options.stripe = true;
                 // first optional parameter is: scale_factor (stripe)
-                int argNext = arg + 1;
+                argNext = arg + 1;
                 if (args[argNext] != null && isNumeric(args[argNext])) {
                     options.stripe_scalefactor = Integer.parseInt(args[argNext]);
                 }
@@ -45,11 +46,15 @@ public class Graffitude {
                 System.out.println("option scale");
                 options.scale = true;
                 // first parameter of scale is: scale_factor (scale)
-                int argNext = arg + 1;
+                argNext = arg + 1;
                 if (args[argNext] != null && isNumeric(args[argNext])) {
                     options.scale_scalefactor = Integer.parseInt(args[argNext]);
                 }
-
+                argNext++;
+                if (args[argNext] != null &&  args[argNext].startsWith("--")) {
+                    options.scale_scalemode = args[argNext].substring(2);
+                    System.out.println("scalemode: " +options.scale_scalemode );
+                }
             }
             if (args[arg].toLowerCase().equals("pointed")) {
                 System.out.println("option pointed");

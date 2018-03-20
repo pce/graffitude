@@ -20,6 +20,7 @@ public class Options {
     public int scalefactor = 8;
     public int stripe_scalefactor = 8;
     public int scale_scalefactor = 8;
+    public String scale_scalemode = "pixel";
 
     public Options() {
         this.scale = false;

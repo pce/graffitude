@@ -79,7 +79,9 @@ public class GraphicsRenderer {
                 System.out.println("apply scale");
                 PixelScaleFilter scaleFilter = new PixelScaleFilter(pixelArray);
                 scaleFilter.setImage(image);
-                // scaleFilter.set
+                scaleFilter.setScalefactor(options.scale_scalefactor);
+                System.out.println(options.scale_scalefactor + " " + options.scale_scalemode);
+                scaleFilter.setMode(options.scale_scalemode);
                 pixelArray.applyFilter(scaleFilter);
             }
 
