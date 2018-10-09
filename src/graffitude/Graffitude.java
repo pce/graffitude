@@ -1,5 +1,7 @@
 package graffitude;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author pce
@@ -23,28 +25,54 @@ public class Graffitude {
     public static void main(String[] args) {
 
         String filename = "";
-
         Options options = new Options();
+        LinkedList<PixelFilterable> filterPipeline = new LinkedList<>();
 
-        // what about filter specific options and for each usage ...
-        // --filter "scale" 123 "pointed"
         int argNext;
         for (int arg = 0; arg < args.length; arg++) {
 
             System.out.println(arg + ": " + args[arg]);
 
+            // global options like width and height
+            if (args[arg].toLowerCase().equals("-w")) {
+                argNext = arg + 1;
+                if (args[argNext] != null && isNumeric(args[argNext])) {
+                    options.width = Integer.parseInt(args[argNext]);
+                }
+            }
+
+            if (args[arg].toLowerCase().equals("-h")) {
+                argNext = arg + 1;
+                if (args[argNext] != null && isNumeric(args[argNext])) {
+                    options.height = Integer.parseInt(args[argNext]);
+                }
+            }
+
+            // generative
+            if (args[arg].toLowerCase().equals("genrand")) {
+                System.out.println("option genrand");
+                options.genrand = true;
+            }
+
+            // mod
             if (args[arg].toLowerCase().equals("stripe")) {
                 System.out.println("option stripe");
-                options.stripe = true;
+
+                PixelFilterable stripeFilter = new PixelStripeFilter();
                 // first optional parameter is: scale_factor (stripe)
                 argNext = arg + 1;
                 if (args[argNext] != null && isNumeric(args[argNext])) {
                     options.stripe_scalefactor = Integer.parseInt(args[argNext]);
+                    stripeFilter.setOptions(options);
                 }
+                filterPipeline.add(stripeFilter);
             }
+
             if (args[arg].toLowerCase().equals("scale")) {
                 System.out.println("option scale");
-                options.scale = true;
+
+                PixelFilterable scaleFilter = new PixelScaleFilter();
+
                 // first parameter of scale is: scale_factor (scale)
                 argNext = arg + 1;
                 if (args[argNext] != null && isNumeric(args[argNext])) {
@@ -55,27 +83,29 @@ public class Graffitude {
                     options.scale_scalemode = args[argNext].substring(2);
                     System.out.println("scalemode: " +options.scale_scalemode );
                 }
+                scaleFilter.setOptions(options);
+                filterPipeline.add(scaleFilter);
             }
             if (args[arg].toLowerCase().equals("pointed")) {
                 System.out.println("option pointed");
-                options.pointed = true;
+                filterPipeline.add(new PixelPointedFilter());
             }
             if (args[arg].toLowerCase().equals("split")) {
                 System.out.println("option split");
-                options.split = true;
+                filterPipeline.add(new PixelSplitFilter());
             }
 
         }
 
         try {
             // 0 = filename
-            filename = args[0].toString();
+            filename = args[0];//.toString();
         } catch (Exception e) {
             System.out.println("Error: at least a inputfilename as first argument is required");
         }
 
         GraphicsRenderer renderer = new GraphicsRenderer();
-        renderer.generate(filename, options);
+        renderer.generate(filename, filterPipeline, options);
 
     }
 

@@ -11,4 +11,5 @@ package graffitude;
  */
 interface PixelFilterable {
     public PixelArray filter(PixelArray pixelArray);
+    public void setOptions(Options options);
 }

@@ -1,7 +1,5 @@
 package graffitude;
 
-import java.awt.image.BufferedImage;
-
 /**
  *
  * @author pce
@@ -10,9 +8,13 @@ public class PixelStripeFilter implements PixelFilterable {
 
     private PixelArray pixelArray;
 
-    private BufferedImage image;
 
     private int scalefactor = 8;
+
+    @Override
+    public void setOptions(Options options) {
+        this.scalefactor = options.stripe_scalefactor;
+    }
 
     public int getScalefactor() {
         return scalefactor;
@@ -22,19 +24,21 @@ public class PixelStripeFilter implements PixelFilterable {
         this.scalefactor = scalefactor;
     }
 
+    public PixelStripeFilter() {}
+
+    public PixelStripeFilter(int scalefactor) {
+        this.setScalefactor(scalefactor);
+    }
+
     public PixelStripeFilter(PixelArray pixelArray) {
         this.pixelArray = pixelArray;
     }
 
-    public void setImage(BufferedImage image) {
-        this.image = image;
-    }
-
+    @Override
     public PixelArray filter(PixelArray inPixelArray) {
 
         int currentClr = -1;
         boolean hasInitColor = false;
-
         // String style = "arrow";
         String style = "stripe";
 
@@ -45,7 +49,8 @@ public class PixelStripeFilter implements PixelFilterable {
         for (int y = 0; y < inPixelArray.getHeight(); y += 8) {
             for (int x = 0; x < inPixelArray.getWidth(); x += 8) {
 
-                int clr = image.getRGB(x, y);
+                int clr = inPixelArray.getPixel(x, y);
+
 
                 if (!hasInitColor) {
                     currentClr = clr;
@@ -82,10 +87,8 @@ public class PixelStripeFilter implements PixelFilterable {
                         // pixelArray.setPixel(x+i, y+3, currentClr);
                     }
                 }
-
             }
         }
-
         return pixelArray;
     }
 }

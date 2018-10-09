@@ -1,11 +1,12 @@
 package graffitude;
 
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
+import java.util.LinkedList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
@@ -18,37 +19,35 @@ public class GraphicsRenderer {
     private int width = 700;
     private int height = 887;
 
-    private void generateGraphics(PixelArray pixelarray, int g2dStyle) throws Exception {
+    private void generateGraphics(PixelArray pixelArray, int g2dStyle) throws Exception {
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = bufferedImage.createGraphics();
 
-        // pixelarray.setBackground(-16726016);
-        // pixelarray.setBackground(255255255);
-        // pixelarray.setBackground(-255255255);
-        pixelarray.setBackground(0);
+        // pixelArray.setBackground(-16726016);
+        // pixelArray.setBackground(255255255);
+        // pixelArray.setBackground(-255255255);
+        pixelArray.setBackground(0);
 
-        for (int x = 0; x < pixelarray.getWidth(); x++) {
-            for (int y = 0; y < pixelarray.getHeight(); y++) {
-                int clr = pixelarray.getPixel(x, y);
+        for (int x = 0; x < pixelArray.getWidth(); x++) {
+            for (int y = 0; y < pixelArray.getHeight(); y++) {
+                int clr = pixelArray.getPixel(x, y);
                 g2d.setColor(new Color(clr));
 
                 switch (g2dStyle) {
                     case 1:
                         g2d.fillRect(x, y, 1, 1);
-                    break;
+                        break;
                     case 2:
                         g2d.fillOval(x, y, 8, 8);
-                    break;
+                        break;
                     default:
-                        if (x%2==0) {
+                        if (x % 2 == 0) {
                             g2d.fillOval(x, y, 8, 8);
                         } else {
                             g2d.fillRect(x, y, 1, 1);
                         }
-                    break;
+                        break;
                 }
-
-
 
             }
         }
@@ -64,53 +63,70 @@ public class GraphicsRenderer {
 
     }
 
-
-    public void generate(String filename, Options options) {
+    public void generate(String filename, LinkedList<PixelFilterable> filterPipeline, Options options) {
         try {
-            final File file = new File(filename);
-            final BufferedImage image = ImageIO.read(file);
 
-            width = image.getWidth();
-            height = image.getHeight();
+            final File file = new File(filename);
+
+            final BufferedImage image;
+            if (file.canRead()) {
+                image = ImageIO.read(file);
+                width = image.getWidth();
+                height = image.getHeight();
+            } else {
+                // create image with width, height
+                width = options.width;
+                height = options.height;
+                BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                RenderedImage rendImage = bufferedImage;
+                ImageIO.write(rendImage, "png", file);
+                image = bufferedImage;
+            }
 
             PixelArray pixelArray = new PixelArray(width, height);
 
-            if (options.scale) {
-                System.out.println("apply scale");
-                PixelScaleFilter scaleFilter = new PixelScaleFilter(pixelArray);
-                scaleFilter.setImage(image);
-                scaleFilter.setScalefactor(options.scale_scalefactor);
-                System.out.println(options.scale_scalefactor + " " + options.scale_scalemode);
-                scaleFilter.setMode(options.scale_scalemode);
-                pixelArray.applyFilter(scaleFilter);
+            // init pixelArray with image data
+            int clr;
+            for (int y = 0; y < pixelArray.getHeight(); y++) {
+                for (int x = 0; x < pixelArray.getWidth(); x++) {
+
+                    clr = image.getRGB(x, y);
+                    pixelArray.setPixel(x, y, clr);
+                }
             }
 
-            if (options.pointed) {
-                System.out.println("apply pointed");
-                PixelPointedFilter pointedFilter = new PixelPointedFilter(pixelArray);
-                pointedFilter.setImage(image);
-                pixelArray.applyFilter(pointedFilter);
+            if (options.genrand) {
+                System.out.println("apply genrand");
+                Graphics2D g2d = image.createGraphics();
+
+                g2d.setColor(new Color(155180255));
+
+                for (int x = 0; x < pixelArray.getWidth(); x++) {
+                    for (int y = 0; y < pixelArray.getHeight(); y++) {
+                        if (x % 8 == 0) {
+                            clr = 255180155;
+                            g2d.setColor(new Color(clr));
+                        }
+                        if (y % 4 == 0) {
+                            clr = 255255255;
+                            g2d.setColor(new Color(clr));
+                        }
+                        g2d.fillRect(x, y, 1, 1);
+                    }
+                }
+                g2d.dispose();
             }
 
-            if (options.split) {
-                System.out.println("apply split");
-                PixelSplitFilter splitFilter = new PixelSplitFilter(pixelArray);
-                splitFilter.setImage(image);
-                pixelArray.applyFilter(splitFilter);
-            }
-
-            if (options.stripe) {
-                System.out.println("apply stripe");
-                PixelStripeFilter stripeFilter = new PixelStripeFilter(pixelArray);
-                stripeFilter.setImage(image);
-                stripeFilter.setScalefactor(options.stripe_scalefactor);
-                pixelArray.applyFilter(stripeFilter);
+            for (PixelFilterable filter : filterPipeline) {
+                System.out.println("iterate linked list of filters to apply: " + filter.getClass().getSimpleName());
+                pixelArray.applyFilter(filter);
             }
 
             generateGraphics(pixelArray, options.g2d_style);
 
         } catch (Exception ex) {
-            System.out.println(filename + "generate graphics failed... \n" + ex.getMessage());
+            System.out.println(filename + " generate graphics failed... \n" + ex.getMessage());
+            System.out.println(ex);
         }
     }
 

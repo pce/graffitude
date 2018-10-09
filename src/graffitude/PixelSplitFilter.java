@@ -1,6 +1,5 @@
 package graffitude;
 
-import java.awt.image.BufferedImage;
 
 /**
  * The Splitfilter split images,
@@ -19,18 +18,20 @@ public class PixelSplitFilter implements PixelFilterable {
 
     private PixelArray pixelArray;
 
-    private BufferedImage image;
-
     private int scalefactor = 2;
+
+    public PixelSplitFilter() {}
 
     public PixelSplitFilter(PixelArray pixelArray) {
         this.pixelArray = pixelArray;
     }
 
-    public void setImage(BufferedImage image) {
-        this.image = image;
+    @Override
+    public void setOptions(Options options) {
+        this.scalefactor = options.scalefactor;
     }
 
+    @Override
     public PixelArray filter(PixelArray inPixelArray) {
 
         PixelArray pixelArray = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
@@ -70,7 +71,7 @@ public class PixelSplitFilter implements PixelFilterable {
                 int _x = (x - offsetx) * scalefactor;
                 int _y = (y - offsety) * scalefactor;
 
-                int clr = image.getRGB(x, y);
+                int clr = inPixelArray.getPixel(x, y);
 
                 for (int i = 0; i < scalefactor; i++) {
                     pixelArray.drawSquare(_x, _y, r, clr);

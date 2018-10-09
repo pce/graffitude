@@ -1,6 +1,5 @@
 package graffitude;
 
-import java.awt.image.BufferedImage;
 
 /**
  *
@@ -10,18 +9,20 @@ public class PixelPointedFilter implements PixelFilterable {
 
     private PixelArray pixelArray;
 
-    private BufferedImage image;
-
     private int scalefactor = 4;
+
+    public PixelPointedFilter() {}
 
     public PixelPointedFilter(PixelArray pixelArray) {
         this.pixelArray = pixelArray;
     }
 
-    public void setImage(BufferedImage image) {
-        this.image = image;
+    @Override
+    public void setOptions(Options options) {
+        this.scalefactor = options.scalefactor;
     }
 
+    @Override
     public PixelArray filter(PixelArray inPixelArray) {
         int currentClr = -1;
         boolean hasInitColor = false;
@@ -35,7 +36,7 @@ public class PixelPointedFilter implements PixelFilterable {
         for (int y = 0; y < inPixelArray.getHeight(); y++) {
             for (int x = 0; x < inPixelArray.getWidth(); x++) {
 
-                int clr = image.getRGB(x, y);
+                int clr = inPixelArray.getPixel(x, y);
 
                 if (!hasInitColor) {
                     currentClr = clr;

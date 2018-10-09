@@ -16,8 +16,16 @@ public class PixelScaleFilter implements PixelFilterable {
 
     private String mode = "pixel";
 
+    public PixelScaleFilter() {
+    }
+
     public PixelScaleFilter(PixelArray pixelArray) {
         this.pixelArray = pixelArray;
+    }
+
+    @Override
+    public void setOptions(Options options) {
+        this.scalefactor = options.scalefactor;
     }
 
     public void setImage(BufferedImage image) {
@@ -32,6 +40,7 @@ public class PixelScaleFilter implements PixelFilterable {
         this.mode = mode;
     }
 
+    @Override
     public PixelArray filter(PixelArray inPixelArray) {
 
         switch (mode) {
@@ -45,9 +54,7 @@ public class PixelScaleFilter implements PixelFilterable {
 
         }
 
-
     }
-
 
     /**
      * scales the pixels and the image size
@@ -58,24 +65,23 @@ public class PixelScaleFilter implements PixelFilterable {
     private PixelArray simpleImageScale(PixelArray inPixelArray) {
         int currentClr;
 
-
         int outImgWidth = inPixelArray.getWidth() * scalefactor;
         int outImgHeight = inPixelArray.getHeight() * scalefactor;
 
-
+        // XXX local pixelArray hides member
         PixelArray pixelArray = new PixelArray(outImgWidth, outImgHeight);
 
         int clr;
         for (int y = 0; y < inPixelArray.getHeight(); y++) {
             for (int x = 0; x < inPixelArray.getWidth(); x++) {
 
-                clr = image.getRGB(x, y);
+                clr = inPixelArray.getPixel(x, y);
 
                 currentClr = clr;
 
-                for (int i=0; i <= scalefactor; i++) {
-                    pixelArray.setPixel((x+i) * scalefactor, y * scalefactor, currentClr);
-                    pixelArray.setPixel(x * scalefactor, (y+i) * scalefactor, currentClr);
+                for (int i = 0; i <= scalefactor; i++) {
+                    pixelArray.setPixel((x + i) * scalefactor, y * scalefactor, currentClr);
+                    pixelArray.setPixel(x * scalefactor, (y + i) * scalefactor, currentClr);
                 }
 
             }
@@ -84,7 +90,6 @@ public class PixelScaleFilter implements PixelFilterable {
         return pixelArray;
 
     }
-
 
     /**
      * scales the pixels by skipping pixels, while keeping image size
@@ -102,7 +107,7 @@ public class PixelScaleFilter implements PixelFilterable {
         for (int y = 0; y < inPixelArray.getHeight(); y++) {
             for (int x = 0; x < inPixelArray.getWidth(); x++) {
 
-                clr = image.getRGB(x, y);
+                clr = inPixelArray.getPixel(x, y);
 
                 if (!hasInitColor) {
                     currentClr = clr;
@@ -129,7 +134,6 @@ public class PixelScaleFilter implements PixelFilterable {
     private PixelArray simpleImageScaleWeirdXY(PixelArray inPixelArray) {
         int currentClr;
 
-
         int outImgWidth = inPixelArray.getWidth() * scalefactor;
         int outImgHeight = inPixelArray.getHeight() * scalefactor;
 
@@ -143,9 +147,9 @@ public class PixelScaleFilter implements PixelFilterable {
 
                 currentClr = clr;
 
-                for (int i=0; i <= scalefactor; i++) {
-                    pixelArray.setPixel(x+i * scalefactor, y * scalefactor, currentClr);
-                    pixelArray.setPixel(x * scalefactor, y+i * scalefactor, currentClr);
+                for (int i = 0; i <= scalefactor; i++) {
+                    pixelArray.setPixel(x + i * scalefactor, y * scalefactor, currentClr);
+                    pixelArray.setPixel(x * scalefactor, y + i * scalefactor, currentClr);
                 }
 
             }
