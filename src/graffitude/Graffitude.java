@@ -96,7 +96,7 @@ public class Graffitude {
             }
             if (args[arg].toLowerCase().equals("invert")) {
                 System.out.println("option invert");
-                filterPipeline.add(new PixelColorInvert());
+                filterPipeline.add(new PixelColorInvertFilter());
             }
 
             if (args[arg].toLowerCase().equals("split")) {

@@ -5,12 +5,10 @@ package graffitude;
  *
  * @author pce
  */
-public class PixelColorInvert implements PixelFilterable {
+public class PixelColorInvertFilter implements PixelFilterable {
 
     private PixelArray pixelArray;
 
-
-    // detectColorPallette() {}
 
     private int scalefactor = 8;
 
@@ -27,20 +25,16 @@ public class PixelColorInvert implements PixelFilterable {
         this.scalefactor = scalefactor;
     }
 
-    public PixelColorInvert() {}
+    public PixelColorInvertFilter() {}
 
-    public PixelColorInvert(PixelArray pixelArray) {
+    public PixelColorInvertFilter(PixelArray pixelArray) {
         this.pixelArray = pixelArray;
     }
 
     @Override
     public PixelArray filter(PixelArray inPixelArray) {
 
-        int currentClr = -1;
-        boolean hasInitColor = false;
-
-        // String style = "artistic";
-        String style = "simple";
+        String style = "simple"; // or "artistic";
 
         System.out.println("@" + this.getClass().getSimpleName() + " style:" + style);
 
@@ -53,13 +47,10 @@ public class PixelColorInvert implements PixelFilterable {
                 int clr = inPixelArray.getPixel(x, y);
 
                 if (style.equals("artistic")) {
-                    // no invertion, but nice when interpolated
-                    pixelArray.setPixel(x, y, (clr / 2) + clr);
-                    pixelArray.setPixel(x, y+1, (clr / 2) + clr);
-                    pixelArray.setPixel(x + 1, y, (clr / 2) + clr);
-                } else {
-                    // FF - clr
                     pixelArray.setPixel(x, y, 0xFFFFFFFF - clr);
+                } else {
+                    // A(FF)RGB  - clr
+                    pixelArray.setPixel(x, y, ~clr|0xff000000);
                 }
             }
         }
