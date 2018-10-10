@@ -5,12 +5,11 @@ package graffitude;
  * The Splitfilter split images,
  * just a Toy ...
  *
- * "in.jpg"  --filter split 4  1
- *
- * TODO Options from Command-Line: splitsNum tileNum?
+ * TODO all Options from Cli: splitsNum tileNum?, "in.jpg"  --filter split 4  1
  * or give the Filter the ability to create additional Graphics
  * for Frames to create a gif or movie
  * or for additional Images on Disk (Storage)
+ * ( In(A) ->(split)-> Out(A1, A2, A3, A4)  -> nextFilter?
  *
  * @author pce
  */
@@ -20,6 +19,8 @@ public class PixelSplitFilter implements PixelFilterable {
 
     private int scalefactor = 2;
 
+    private int currentTile = 1;
+
     public PixelSplitFilter() {}
 
     public PixelSplitFilter(PixelArray pixelArray) {
@@ -28,16 +29,19 @@ public class PixelSplitFilter implements PixelFilterable {
 
     @Override
     public void setOptions(Options options) {
-        this.scalefactor = options.scalefactor;
+        // hardcoded (0 is forbidden, ...)
+        this.scalefactor = 2;
+        this.currentTile = options.paramInt1;
     }
 
     @Override
     public PixelArray filter(PixelArray inPixelArray) {
 
-        PixelArray pixelArray = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
+        System.out.println("@" + this.getClass().getSimpleName() + " tile:" + this.currentTile + " scale:" + this.scalefactor);
 
-        // XXX 1,2,3,4 hardcoded
-        int currentTile = 1;
+
+        // PixelArray pixelArray = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
+        pixelArray = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
 
         int currentClr = -1;
         int r = (scalefactor > 3) ? scalefactor / 2 : scalefactor;

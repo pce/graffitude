@@ -93,14 +93,10 @@ public class PixelArray {
      * @param filter
      */
     public void applyFilter(PixelFilterable filter) {
-
-        // filter.filter(this);
-        PixelArray pixelArray = filter.filter(this);
-        // PixelArray pixelArray = filter.filter(new PixelArray(this.pixels, width, height));
+        PixelArray pixelArray = filter.filter(new PixelArray(this.pixels, width, height));
         this.height = pixelArray.getHeight();
         this.width = pixelArray.getWidth();
         this.pixels = pixelArray.getPixels();
-
     }
 
     /**

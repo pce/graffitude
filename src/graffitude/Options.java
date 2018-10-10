@@ -15,13 +15,14 @@ public class Options {
     public int width = 320;
     public int height = 240;
 
-    // Filter Registry (enabled)
+    // Generative
     public boolean genrand = false;
-    public boolean scale = false;
-    public boolean pointed = false;
-    public boolean split = false;
-    public boolean stripe = false;
 
+    // generic params
+    public int paramInt1 = 0;
+    public int paramInt2 = 0;
+
+    // ?
     public LinkedList<String> filterPipeline;
 
     public int scalefactor = 8;
@@ -29,10 +30,5 @@ public class Options {
     public int scale_scalefactor = 8;
     public String scale_scalemode = "pixel";
 
-    public Options() {
-        this.scale = false;
-        this.pointed = false;
-        this.split = false;
-        this.stripe = false;
-    }
+    public Options() {}
 }

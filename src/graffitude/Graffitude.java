@@ -90,9 +90,27 @@ public class Graffitude {
                 System.out.println("option pointed");
                 filterPipeline.add(new PixelPointedFilter());
             }
+            if (args[arg].toLowerCase().equals("waterfill")) {
+                System.out.println("option waterfill");
+                filterPipeline.add(new PixelFloodFilter());
+            }
+            if (args[arg].toLowerCase().equals("invert")) {
+                System.out.println("option invert");
+                filterPipeline.add(new PixelColorInvert());
+            }
+
             if (args[arg].toLowerCase().equals("split")) {
                 System.out.println("option split");
-                filterPipeline.add(new PixelSplitFilter());
+                PixelFilterable splitFilter = new PixelSplitFilter();
+                // first parameter of split is: tile, should be tiles tile
+                argNext = arg + 1;
+                if (args[argNext] != null && isNumeric(args[argNext])) {
+                    options.paramInt1 = Integer.parseInt(args[argNext]);
+                }
+
+                splitFilter.setOptions(options);
+                filterPipeline.add(splitFilter);
+
             }
 
         }

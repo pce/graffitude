@@ -42,9 +42,10 @@ public class PixelStripeFilter implements PixelFilterable {
         // String style = "arrow";
         String style = "stripe";
 
-        System.out.println("@PixelStripeFilter " + style);
+        System.out.println("@" + this.getClass().getSimpleName() + " style:" + style);
 
-        PixelArray pixelArray = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
+        // PixelArray
+        pixelArray = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
 
         for (int y = 0; y < inPixelArray.getHeight(); y += 8) {
             for (int x = 0; x < inPixelArray.getWidth(); x += 8) {

@@ -1,6 +1,5 @@
 package graffitude;
 
-import java.awt.image.BufferedImage;
 
 /**
  *
@@ -9,8 +8,6 @@ import java.awt.image.BufferedImage;
 public class PixelScaleFilter implements PixelFilterable {
 
     private PixelArray pixelArray;
-
-    private BufferedImage image;
 
     private int scalefactor = 8;
 
@@ -25,11 +22,8 @@ public class PixelScaleFilter implements PixelFilterable {
 
     @Override
     public void setOptions(Options options) {
-        this.scalefactor = options.scalefactor;
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
+        this.scalefactor = options.scale_scalefactor;
+        this.mode = options.scale_scalemode;
     }
 
     public void setScalefactor(int scalefactor) {
@@ -42,6 +36,8 @@ public class PixelScaleFilter implements PixelFilterable {
 
     @Override
     public PixelArray filter(PixelArray inPixelArray) {
+
+        System.out.println("@" + this.getClass().getSimpleName() + " mode:" + mode);
 
         switch (mode) {
             case "pixel":
@@ -68,8 +64,8 @@ public class PixelScaleFilter implements PixelFilterable {
         int outImgWidth = inPixelArray.getWidth() * scalefactor;
         int outImgHeight = inPixelArray.getHeight() * scalefactor;
 
-        // XXX local pixelArray hides member
-        PixelArray pixelArray = new PixelArray(outImgWidth, outImgHeight);
+        // PixelArray
+        pixelArray = new PixelArray(outImgWidth, outImgHeight);
 
         int clr;
         for (int y = 0; y < inPixelArray.getHeight(); y++) {
@@ -101,7 +97,8 @@ public class PixelScaleFilter implements PixelFilterable {
         int currentClr = -1;
         boolean hasInitColor = false;
 
-        PixelArray pixelArray = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
+        // PixelArray
+        pixelArray = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
 
         int clr;
         for (int y = 0; y < inPixelArray.getHeight(); y++) {
@@ -137,13 +134,14 @@ public class PixelScaleFilter implements PixelFilterable {
         int outImgWidth = inPixelArray.getWidth() * scalefactor;
         int outImgHeight = inPixelArray.getHeight() * scalefactor;
 
-        PixelArray pixelArray = new PixelArray(outImgWidth, outImgHeight);
+        // PixelArray
+        pixelArray = new PixelArray(outImgWidth, outImgHeight);
 
         int clr;
         for (int y = 0; y < inPixelArray.getHeight(); y++) {
             for (int x = 0; x < inPixelArray.getWidth(); x++) {
 
-                clr = image.getRGB(x, y);
+                clr = inPixelArray.getPixel(x, y);
 
                 currentClr = clr;
 

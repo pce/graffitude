@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.util.LinkedList;
-import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 

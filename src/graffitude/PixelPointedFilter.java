@@ -24,10 +24,14 @@ public class PixelPointedFilter implements PixelFilterable {
 
     @Override
     public PixelArray filter(PixelArray inPixelArray) {
+
+        System.out.println("@" + this.getClass().getSimpleName());
+
         int currentClr = -1;
         boolean hasInitColor = false;
 
-        PixelArray pixelArray = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
+        // PixelArray
+        pixelArray = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
 
         int radius = 10;
 
