@@ -27,12 +27,17 @@ public class Graffitude {
         String filename = "";
         Options options = new Options();
         LinkedList<PixelFilterable> filterPipeline = new LinkedList<>();
+        boolean isVerbose = false;
 
         int argNext;
         for (int arg = 0; arg < args.length; arg++) {
 
-            System.out.println(arg + ": " + args[arg]);
-
+            if (isVerbose) {
+                System.out.println(arg + ": " + args[arg]);
+            }
+            if (args[arg].toLowerCase().equals("-v")) {
+                isVerbose = true;
+            }
             // global options like width and height
             if (args[arg].toLowerCase().equals("-w")) {
                 argNext = arg + 1;
@@ -93,6 +98,10 @@ public class Graffitude {
             if (args[arg].toLowerCase().equals("waterfill")) {
                 System.out.println("option waterfill");
                 filterPipeline.add(new PixelFloodFilter());
+            }
+            if (args[arg].toLowerCase().equals("diff")) {
+                System.out.println("option diff");
+                filterPipeline.add(new PixelDiffFilter(PixelArray));
             }
             if (args[arg].toLowerCase().equals("invert")) {
                 System.out.println("option invert");
