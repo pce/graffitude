@@ -42,7 +42,7 @@ public class PixelDiffFilter implements PixelFilterable {
         System.out.println("@" + this.getClass().getSimpleName() + " style:" + style);
 
         // PixelArray
-        // pixelArray = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
+        PixelArray pixelArrayOut = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
         int clr;
         int clrDiff;
 
@@ -51,20 +51,14 @@ public class PixelDiffFilter implements PixelFilterable {
                 clr = inPixelArray.getPixel(x, y);
                 clrDiff = pixelArray.getPixel(x, y);
                 if (clr != clrDiff) {
-                    pixelArray.setPixel(x+1, y+1, 0xffffffff);
-                    pixelArray.setPixel(x-1, y-1, 0xffffffff);
-                    pixelArray.setPixel(x+1, y, 0xffffffff);
-                    pixelArray.setPixel(x, y+1, 0xffffffff);
-                    pixelArray.setPixel(x-1, y, 0xffffffff);
-                    pixelArray.setPixel(x, y-1, 0xffffffff);
-                    pixelArray.setPixel(x, y, clrDiff);
+                    pixelArrayOut.setPixel(x, y, clrDiff);
                 } else {
-                    pixelArray.setPixel(x, y, 0xff000000);
+                    pixelArrayOut.setPixel(x, y, 0xff000000);
                 }
 
             }
         }
-        return pixelArray;
+        return pixelArrayOut;
     }
 
 }

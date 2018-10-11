@@ -1,6 +1,9 @@
 package graffitude;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.LinkedList;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -25,6 +28,7 @@ public class Graffitude {
     public static void main(String[] args) {
 
         String filename = "";
+        String diffFilename = "";
         Options options = new Options();
         LinkedList<PixelFilterable> filterPipeline = new LinkedList<>();
         boolean isVerbose = false;
@@ -100,8 +104,36 @@ public class Graffitude {
                 filterPipeline.add(new PixelFloodFilter());
             }
             if (args[arg].toLowerCase().equals("diff")) {
+                // DiffMaskFilter?
                 System.out.println("option diff");
-                filterPipeline.add(new PixelDiffFilter(PixelArray));
+                // first parameter of scale is: scale_factor (scale)
+                argNext = arg + 1;
+                // && (args[argNext]).length()
+                if (args[argNext] != null) {
+                    diffFilename = args[argNext];
+                }
+                BufferedImage image;
+                File file = new File(diffFilename);
+                if (file.canRead()) {
+                    try {
+                    image = ImageIO.read(file);
+
+                    PixelArray pixelArray = new PixelArray(image.getWidth(), image.getHeight());
+                    int clr;
+                    for (int y = 0; y < image.getHeight(); y++) {
+                        for (int x = 0; x < image.getWidth(); x++) {
+                            clr = image.getRGB(x, y);
+                            pixelArray.setPixel(x, y, clr);
+                        }
+                    }
+
+                    filterPipeline.add(new PixelDiffFilter(pixelArray));
+
+                    } catch (Exception ex) {
+
+                    }
+
+                }
             }
             if (args[arg].toLowerCase().equals("invert")) {
                 System.out.println("option invert");
