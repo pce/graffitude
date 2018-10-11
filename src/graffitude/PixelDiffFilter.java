@@ -4,7 +4,7 @@ package graffitude;
  * The simple Diff-Filter takes an input-image as argument
  * and creates a Pixelarray of Differences
  *
- * @todo test: same images should result in a single colored pixelarray
+ * ATM diff on an image with a different Color-Profile or compression is useless
  *
  * @author pce
  */
@@ -38,10 +38,8 @@ public class PixelDiffFilter implements PixelFilterable {
     public PixelArray filter(PixelArray inPixelArray) {
 
         String style = "simple";
-
         System.out.println("@" + this.getClass().getSimpleName() + " style:" + style);
 
-        // PixelArray
         PixelArray pixelArrayOut = new PixelArray(inPixelArray.getWidth(), inPixelArray.getHeight());
         int clr;
         int clrDiff;

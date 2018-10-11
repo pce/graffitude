@@ -1,7 +1,5 @@
 package graffitude;
 
-import java.util.*;
-
 /**
  *
  * @author pce
@@ -22,8 +20,6 @@ public class Options {
     public int paramInt1 = 0;
     public int paramInt2 = 0;
 
-    // ?
-    public LinkedList<String> filterPipeline;
 
     public int scalefactor = 8;
     public int stripe_scalefactor = 8;

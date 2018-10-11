@@ -88,9 +88,9 @@ public class Graffitude {
                     options.scale_scalefactor = Integer.parseInt(args[argNext]);
                 }
                 argNext++;
-                if (args[argNext] != null &&  args[argNext].startsWith("--")) {
+                if (args[argNext] != null && args[argNext].startsWith("--")) {
                     options.scale_scalemode = args[argNext].substring(2);
-                    System.out.println("scalemode: " +options.scale_scalemode );
+                    System.out.println("scalemode: " + options.scale_scalemode);
                 }
                 scaleFilter.setOptions(options);
                 filterPipeline.add(scaleFilter);
@@ -98,6 +98,10 @@ public class Graffitude {
             if (args[arg].toLowerCase().equals("pointed")) {
                 System.out.println("option pointed");
                 filterPipeline.add(new PixelPointedFilter());
+            }
+            if (args[arg].toLowerCase().equals("peak")) {
+                System.out.println("option peak");
+                filterPipeline.add(new PixelPeakDetectFilter());
             }
             if (args[arg].toLowerCase().equals("waterfill")) {
                 System.out.println("option waterfill");
@@ -116,23 +120,25 @@ public class Graffitude {
                 File file = new File(diffFilename);
                 if (file.canRead()) {
                     try {
-                    image = ImageIO.read(file);
+                        image = ImageIO.read(file);
 
-                    PixelArray pixelArray = new PixelArray(image.getWidth(), image.getHeight());
-                    int clr;
-                    for (int y = 0; y < image.getHeight(); y++) {
-                        for (int x = 0; x < image.getWidth(); x++) {
-                            clr = image.getRGB(x, y);
-                            pixelArray.setPixel(x, y, clr);
+                        PixelArray pixelArray = new PixelArray(image.getWidth(), image.getHeight());
+                        int clr;
+                        for (int y = 0; y < image.getHeight(); y++) {
+                            for (int x = 0; x < image.getWidth(); x++) {
+                                clr = image.getRGB(x, y);
+                                pixelArray.setPixel(x, y, clr);
+                            }
                         }
+                        filterPipeline.add(new PixelDiffFilter(pixelArray));
+
+                    } catch (Exception e) {
+                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
 
-                    filterPipeline.add(new PixelDiffFilter(pixelArray));
-
-                    } catch (Exception ex) {
-
-                    }
-
+                } else {
+                    System.out.println("File not found: " + diffFilename);
                 }
             }
             if (args[arg].toLowerCase().equals("invert")) {

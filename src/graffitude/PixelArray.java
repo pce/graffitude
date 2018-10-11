@@ -10,7 +10,7 @@ public class PixelArray {
 
     private int width, height;
 
-    private int bgColor = 0;
+    private int bgColor = 0x44000000;
 
     public PixelArray(int width, int height) {
         this.width = width;
@@ -99,18 +99,6 @@ public class PixelArray {
         this.pixels = pixelArray.getPixels();
     }
 
-    /**
-     * the filter operates on a new PixelArray
-     *
-     * @param filter
-     */
-    public void applyFilterOnNewPixelArray(PixelFilterable filter) {
-
-        PixelArray pixelArray = filter.filter(new PixelArray(this.pixels, width, height));
-        this.height = pixelArray.getHeight();
-        this.width = pixelArray.getWidth();
-        this.pixels = pixelArray.getPixels();
-    }
 
     public void setPixel(int offset, int color) {
         pixels[offset] = color;
