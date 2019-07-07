@@ -58,9 +58,9 @@ public class Graffitude {
             }
 
             // generative
-            if (args[arg].toLowerCase().equals("genrand")) {
-                System.out.println("option genrand");
-                options.genrand = true;
+            if (args[arg].toLowerCase().equals("isGeneratingPic")) {
+                System.out.println("option isGeneratingPic");
+                options.isGeneratingPic = true;
             }
 
             // mod
@@ -167,7 +167,8 @@ public class Graffitude {
             filename = args[0];//.toString();
         } catch (Exception e) {
             System.out.println("Note: at least a inputfilename as first argument is required to use filter");
-            options.genrand = true;
+            options.isGeneratingPic = true;
+            // TODO no filename needed, file is unused
             filename = "../in.jpg";
         }
 

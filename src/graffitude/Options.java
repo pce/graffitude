@@ -6,7 +6,6 @@ package graffitude;
  */
 public class Options {
 
-
     // 1=drawRect 1.1
     public int g2d_style = 1;
 
@@ -14,12 +13,11 @@ public class Options {
     public int height = 240;
 
     // Generative
-    public boolean genrand = false;
+    public boolean isGeneratingPic = false;
 
     // generic params
     public int paramInt1 = 0;
     public int paramInt2 = 0;
-
 
     public int scalefactor = 8;
     public int stripe_scalefactor = 8;

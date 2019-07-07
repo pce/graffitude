@@ -65,7 +65,7 @@ public class GraphicsRenderer {
 
     public void generate(String filename, LinkedList<PixelFilterable> filterPipeline, Options options) {
         try {
-
+            // TODO  do not require file if (options.isGeneratingPic)
             final File file = new File(filename);
 
             final BufferedImage image;
@@ -95,8 +95,8 @@ public class GraphicsRenderer {
                 }
             }
 
-            if (options.genrand) {
-                System.out.println("apply genrand");
+            if (options.isGeneratingPic) {
+                System.out.println("apply isGeneratingPic");
                 Graphics2D g2d = image.createGraphics();
                 g2d.setColor(new Color(155180255));
                 /*
@@ -106,6 +106,7 @@ public class GraphicsRenderer {
                 }
                 */
                 PytaghorasTreePainter treePainer = new PytaghorasTreePainter();
+                treePainer.setOptions(options);
                 pixelArray = treePainer.paintTree(pixelArray, width - width/4, height, width, height);
             }
 

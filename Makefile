@@ -14,8 +14,7 @@ compile:
 	$(mkdir build/classes 2> /dev/null)
 	$(JC) -g -d build/classes src/graffitude/*.java
 
-example:
-	 $(JVM) -jar dist/Graffitude.jar 'in-A.jpg' diff 'in-B.jpg'
-
+example-diff:
+	$(JVM) -jar dist/Graffitude.jar 'in-A.jpg' diff 'in-B.jpg'
 
 

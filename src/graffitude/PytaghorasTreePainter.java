@@ -2,33 +2,32 @@ package graffitude;
 
 
 /**
- *
-    // TODO just paint (PixelPaintable)
-    @Override
-    public PixelArray paint(PixelArray inPixelArray) {
-
-        System.out.println("@" + this.getClass().getSimpleName());
-        return paintTree(inPixelArray);
-    }
-
  * Malen nach Lehrbuch (⌐■_■)
  *
- * @see Algorithm by "Algorithmen und Datenstrukturen - Gunter Saake und Kai-Uwe Sattler"
+ * @see Algorithm "Algorithmen und Datenstrukturen - Gunter Saake und Kai-Uwe Sattler"
  */
-public class PytaghorasTreePainter { // implements PixelPaintable
+public class PytaghorasTreePainter implements PixelPaintable {
 
     private PixelArray pixelArray;
-
+    private Options options;
     private double tanphi = 1.0;
 
-
-    public PytaghorasTreePainter() {
-    }
+    public PytaghorasTreePainter() {}
 
     public PytaghorasTreePainter(PixelArray pixelArray) {
         this.pixelArray = pixelArray;
     }
 
+    @Override
+    public void setOptions(Options options) {
+        this.options = options;
+    }
+
+    @Override
+    public PixelArray paint(PixelArray inPixelArray) {
+        System.out.println("@" + this.getClass().getSimpleName());
+        return paintTree(inPixelArray, options.width, options.height, options.width / 5, options.height);
+    }
 
     /**
      * recursive paint, use member pixelArray
