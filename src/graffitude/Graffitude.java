@@ -169,7 +169,7 @@ public class Graffitude {
             System.out.println("Note: at least a inputfilename as first argument is required to use filter");
             options.isGeneratingPic = true;
             // TODO no filename needed, file is unused
-            filename = "../in.jpg";
+            filename = "0.png";
         }
 
         GraphicsRenderer renderer = new GraphicsRenderer();

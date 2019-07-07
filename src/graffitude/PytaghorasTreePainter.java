@@ -11,6 +11,7 @@ public class PytaghorasTreePainter implements PixelPaintable {
     private PixelArray pixelArray;
     private Options options;
     private double tanphi = 1.0;
+    private int fgColor = 255180155;
 
     public PytaghorasTreePainter() {}
 
@@ -26,7 +27,7 @@ public class PytaghorasTreePainter implements PixelPaintable {
     @Override
     public PixelArray paint(PixelArray inPixelArray) {
         System.out.println("@" + this.getClass().getSimpleName());
-        return paintTree(inPixelArray, options.width, options.height, options.width / 5, options.height);
+        return paintTree(inPixelArray, options.width - options.width / 4, options.height, options.width, options.height);
     }
 
     /**
@@ -43,10 +44,10 @@ public class PytaghorasTreePainter implements PixelPaintable {
         double y4 = y2 - dx;
 
         // 2: paint quad
-        pixelArray.drawLine((int)x1, (int)y1, (int)x2, (int)y2, 255180155);
-        pixelArray.drawLine((int)x2, (int)y2, (int)x4, (int)y4, 255180155);
-        pixelArray.drawLine((int)x4, (int)y4, (int)x3, (int)y3, 255180155);
-        pixelArray.drawLine((int)x1, (int)y1, (int)x3, (int)y3, 255180155);
+        pixelArray.drawLine((int)x1, (int)y1, (int)x2, (int)y2, fgColor);
+        pixelArray.drawLine((int)x2, (int)y2, (int)x4, (int)y4, fgColor);
+        pixelArray.drawLine((int)x4, (int)y4, (int)x3, (int)y3, fgColor);
+        pixelArray.drawLine((int)x1, (int)y1, (int)x3, (int)y3, fgColor);
 
         // 3: new coords
         double v = (x3 + x4) / 2 - (dy / 2 * tanphi);
