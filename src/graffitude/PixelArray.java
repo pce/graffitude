@@ -151,6 +151,7 @@ public class PixelArray {
     }
 
     /**
+     * Bresenham
      *
      * @param x1
      * @param y1
@@ -159,12 +160,22 @@ public class PixelArray {
      * @param color
      */
     public void drawLine(int x1, int y1, int x2, int y2, int color) {
-        // TODO
-        int i;
-        int j;
-        for (i = x1; i < x2; i++) {
-            for (j = y1; j < y2; j++) {
-                setPixel(i, j, color);
+        int dx = x2 - x1;
+        int dy = y2 - y1;
+        int const1 = dx + dx;
+        int const2 = dy + dy;
+
+        int error = const2 - dx;
+
+        while (x1 <= x2) {
+            setPixel(x1, y1, color);
+            x1++;
+
+            if (error <= 0) {
+                error += const2;
+            } else {
+                y1++;
+                error += const2 - const1;
             }
         }
     }
