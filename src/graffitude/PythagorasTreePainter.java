@@ -6,16 +6,16 @@ package graffitude;
  *
  * @see Algorithm "Algorithmen und Datenstrukturen - Gunter Saake und Kai-Uwe Sattler"
  */
-public class PytaghorasTreePainter implements PixelPaintable {
+public class PythagorasTreePainter implements PixelPaintable {
 
     private PixelArray pixelArray;
     private Options options;
     private double tanphi = 1.0;
     private int fgColor = 255180155;
 
-    public PytaghorasTreePainter() {}
+    public PythagorasTreePainter() {}
 
-    public PytaghorasTreePainter(PixelArray pixelArray) {
+    public PythagorasTreePainter(PixelArray pixelArray) {
         this.pixelArray = pixelArray;
     }
 

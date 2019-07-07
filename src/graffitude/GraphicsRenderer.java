@@ -105,7 +105,7 @@ public class GraphicsRenderer {
                     }
                 }
                 */
-                PytaghorasTreePainter treePainer = new PytaghorasTreePainter();
+                PythagorasTreePainter treePainer = new PythagorasTreePainter();
                 treePainer.setOptions(options);
                 // pixelArray = treePainer.paintTree(pixelArray, width - width/4, height, width, height);
                 pixelArray = treePainer.paint(pixelArray);
