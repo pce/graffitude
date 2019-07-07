@@ -1,6 +1,17 @@
 <project default="compile">
     <target name="compile">
-        <mkdir dir="classes"/>
-        <javac srcdir="src" destdir="classes"/>
+        <mkdir dir="build/classes" />
+        <javac srcdir="src" destdir="build/classes"/>
+    </target>
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/Graffitude.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="graffitude.Graffitude" />
+            </manifest>
+        </jar>
+    </target>
+    <target name="run">
+        <java jar="build/jar/Graffitude.jar" fork="true"/>
     </target>
 </project>

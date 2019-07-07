@@ -166,7 +166,9 @@ public class Graffitude {
             // 0 = filename
             filename = args[0];//.toString();
         } catch (Exception e) {
-            System.out.println("Error: at least a inputfilename as first argument is required");
+            System.out.println("Note: at least a inputfilename as first argument is required to use filter");
+            options.genrand = true;
+            filename = "../in.jpg";
         }
 
         GraphicsRenderer renderer = new GraphicsRenderer();

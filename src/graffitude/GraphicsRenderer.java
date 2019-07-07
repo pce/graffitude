@@ -58,6 +58,7 @@ public class GraphicsRenderer {
         for (int i = 0; i < frames; i++) {
             File file = new File(i + ".png");
             ImageIO.write(rendImage, "png", file);
+            System.out.println("File: " + file.getAbsolutePath());
         }
 
     }
@@ -97,23 +98,15 @@ public class GraphicsRenderer {
             if (options.genrand) {
                 System.out.println("apply genrand");
                 Graphics2D g2d = image.createGraphics();
-
                 g2d.setColor(new Color(155180255));
-
+                /*
                 for (int x = 0; x < pixelArray.getWidth(); x++) {
                     for (int y = 0; y < pixelArray.getHeight(); y++) {
-                        if (x % 8 == 0) {
-                            clr = 255180155;
-                            g2d.setColor(new Color(clr));
-                        }
-                        if (y % 4 == 0) {
-                            clr = 255255255;
-                            g2d.setColor(new Color(clr));
-                        }
-                        g2d.fillRect(x, y, 1, 1);
                     }
                 }
-                g2d.dispose();
+                */
+                PytaghorasTreePainter treePainer = new PytaghorasTreePainter();
+                pixelArray = treePainer.paintTree(pixelArray, width - width/4, height, width, height);
             }
 
             for (PixelFilterable filter : filterPipeline) {

@@ -150,6 +150,24 @@ public class PixelArray {
         }
     }
 
+    /**
+     *
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @param color
+     */
+    public void drawLine(int x1, int y1, int x2, int y2, int color) {
+        // TODO
+        int i;
+        int j;
+        for (i = x1; i < x2; i++) {
+            for (j = y1; j < y2; j++) {
+                setPixel(i, j, color);
+            }
+        }
+    }
 
 
 }

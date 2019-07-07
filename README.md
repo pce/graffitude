@@ -4,6 +4,10 @@
 - Arguments: input-filename filter [option] [filter [option]] ..., example: "in.jpg" scale 4
 
 
+- run `ant` to compile classes
+- run `make run`
+
+
 ## Examples:
 
 
